@@ -175,6 +175,22 @@ fn build_apple_intelligence_bridge() {
         .expect("Unable to determine Swift toolchain lib directory");
     let sdk_swift_lib = Path::new(&sdk_path).join("usr/lib/swift");
 
+    // Work around a CLT packaging bug on macOS Tahoe where both
+    // `module.modulemap` and `bridging.modulemap` define `SwiftBridging`,
+    // causing a redefinition error. A VFS overlay redirects the duplicate
+    // `module.modulemap` to /dev/null so only `bridging.modulemap` is seen.
+    let vfs_overlay_path = out_dir.join("swift_dedup_vfs.yaml");
+    let toolchain_swift_include = Path::new(&swiftc_path)
+        .parent()
+        .and_then(|p| p.parent())
+        .map(|root| root.join("usr/include/swift"))
+        .unwrap_or_default();
+    let vfs_content = format!(
+        r#"{{"version":0,"case-sensitive":false,"roots":[{{"type":"directory","name":"{}","contents":[{{"type":"file","name":"module.modulemap","external-contents":"/dev/null"}}]}}]}}"#,
+        toolchain_swift_include.to_string_lossy()
+    );
+    std::fs::write(&vfs_overlay_path, vfs_content).expect("Failed to write VFS overlay");
+
     // Use macOS 11.0 as deployment target for compatibility
     // The @available(macOS 26.0, *) checks in Swift handle runtime availability
     // Weak linking for FoundationModels is handled via cargo:rustc-link-arg below
@@ -186,6 +202,10 @@ fn build_apple_intelligence_bridge() {
             "-sdk",
             &sdk_path,
             "-O",
+            "-vfsoverlay",
+            vfs_overlay_path.to_str().expect("VFS overlay path not UTF-8"),
+            "-Xfrontend",
+            "-disable-buildtime-toolchain-version-check",
             "-import-objc-header",
             BRIDGE_HEADER,
             "-c",
