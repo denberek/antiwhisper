@@ -145,9 +145,34 @@ fn build_apple_intelligence_bridge() {
         Path::new(&sdk_path).join("System/Library/Frameworks/FoundationModels.framework");
     let has_foundation_models = framework_path.exists();
 
-    let source_file = if has_foundation_models {
+    // The real Apple Intelligence Swift file uses @Generable, an external Swift macro
+    // provided by FoundationModelsMacros. This plugin is only present in a full Xcode
+    // installation — Command Line Tools alone don't include it. Fall back to the stub
+    // if the plugin is missing so CLT-only builds still succeed.
+    let xcode_root = String::from_utf8(
+        Command::new("xcode-select")
+            .args(["-p"])
+            .output()
+            .map(|o| o.stdout)
+            .unwrap_or_default(),
+    )
+    .unwrap_or_default();
+    let xcode_root = xcode_root.trim();
+    let macro_plugin_path = Path::new(xcode_root)
+        .join("../SharedFrameworks/XCBuild.framework")
+        // Canonical location for FoundationModelsMacros in Xcode
+        .join("../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/libFoundationModelsMacros.dylib");
+    // Simpler check: look in the CLT / Xcode toolchain plugin dir directly
+    let clt_plugin = Path::new(xcode_root)
+        .join("../../../usr/lib/swift/host/plugins/libFoundationModelsMacros.dylib");
+    let has_macro_plugin = macro_plugin_path.exists() || clt_plugin.exists();
+
+    let source_file = if has_foundation_models && has_macro_plugin {
         println!("cargo:warning=Building with Apple Intelligence support.");
         REAL_SWIFT_FILE
+    } else if has_foundation_models {
+        println!("cargo:warning=FoundationModels SDK found but @Generable macro plugin missing (Xcode required). Building with stubs.");
+        STUB_SWIFT_FILE
     } else {
         println!("cargo:warning=Apple Intelligence SDK not found. Building with stubs.");
         STUB_SWIFT_FILE
