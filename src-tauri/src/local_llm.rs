@@ -56,7 +56,7 @@ impl LocalLlmEngine {
 
         // Use the model built-in chat template (reads from GGUF metadata).
         let template = model.chat_template(None)
-            .ok_or("Model has no chat template")?;
+            .map_err(|e| format!("Failed to get chat template: {e}"))?;
 
         let messages = vec![
             LlamaChatMessage::new("system".into(), system_prompt.into())
@@ -101,7 +101,7 @@ impl LocalLlmEngine {
                 break;
             }
 
-            let piece = model.token_to_str(new_token, Special::Tokenize)
+            let piece = model.token_to_piece(new_token, Special::Tokenize)
                 .map_err(|e| format!("Token decode failed: {e}"))?;
             output.push_str(&piece);
 
