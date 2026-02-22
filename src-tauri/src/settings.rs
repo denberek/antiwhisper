@@ -519,6 +519,16 @@ fn default_post_process_providers() -> Vec<PostProcessProvider> {
         });
     }
 
+    #[cfg(target_os = "macos")]
+    providers.push(PostProcessProvider {
+        id: "local".to_string(),
+        label: "Local (Qwen3)".to_string(),
+        base_url: "".to_string(),
+        allow_base_url_edit: false,
+        models_endpoint: None,
+        supports_structured_output: false,
+    });
+
     // Custom provider always comes last
     providers.push(PostProcessProvider {
         id: "custom".to_string(),
@@ -543,6 +553,9 @@ fn default_post_process_api_keys() -> HashMap<String, String> {
 fn default_model_for_provider(provider_id: &str) -> String {
     if provider_id == APPLE_INTELLIGENCE_PROVIDER_ID {
         return APPLE_INTELLIGENCE_DEFAULT_MODEL_ID.to_string();
+    }
+    if provider_id == "local" {
+        return "qwen3-1.7b".to_string();
     }
     String::new()
 }

@@ -9,6 +9,8 @@ mod commands;
 mod helpers;
 mod input;
 mod llm_client;
+#[cfg(target_os = "macos")]
+mod local_llm;
 mod managers;
 mod overlay;
 mod settings;
@@ -431,6 +433,12 @@ pub fn run(cli_args: CliArgs) {
             app.manage(TranscriptionCoordinator::new(app_handle.clone()));
 
             initialize_core_logic(&app_handle);
+            #[cfg(target_os = "macos")]
+            {
+                let llm_engine =
+                    local_llm::LocalLlmEngine::new().expect("Failed to init local LLM backend");
+                app.manage(local_llm::LocalLlmState(std::sync::Mutex::new(llm_engine)));
+            }
 
             // Hide tray icon if --no-tray was passed
             if cli_args.no_tray {
