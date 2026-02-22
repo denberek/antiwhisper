@@ -4,10 +4,12 @@ use llama_cpp_2::llama_batch::LlamaBatch;
 use llama_cpp_2::model::params::LlamaModelParams;
 use llama_cpp_2::model::{AddBos, LlamaChatMessage, LlamaModel, Special};
 use llama_cpp_2::sampling::LlamaSampler;
-use log::{debug, error, info};
+use log::{debug, info};
 use std::path::PathBuf;
 use std::sync::Mutex;
 use std::time::Instant;
+
+pub const LOCAL_LLM_FILENAME: &str = "qwen3-1.7b-instruct-q4_k_m.gguf";
 
 pub struct LocalLlmEngine {
     backend: LlamaBackend,
@@ -41,7 +43,7 @@ impl LocalLlmEngine {
         let model = LlamaModel::load_from_file(&self.backend, model_path, &params)
             .map_err(|e| format!("Failed to load model: {e}"))?;
 
-        info!("Local LLM loaded in {:?} ({} params)", start.elapsed(), model.n_params());
+        info!("Local LLM loaded in {:?}", start.elapsed());
         self.model = Some(model);
         self.model_path = model_path.clone();
         Ok(())
@@ -88,6 +90,8 @@ impl LocalLlmEngine {
         let mut sampler = LlamaSampler::greedy();
         let max_tokens = tokens.len() * 2;
         let mut output = String::new();
+        // Track the KV cache position for each new token (must be monotonically increasing)
+        let mut n_cur = tokens.len() as i32;
 
         for _ in 0..max_tokens {
             let new_token = sampler.sample(&ctx, batch.n_tokens() - 1);
@@ -102,8 +106,9 @@ impl LocalLlmEngine {
             output.push_str(&piece);
 
             batch.clear();
-            batch.add(new_token, batch.n_tokens(), &[0], true)
+            batch.add(new_token, n_cur, &[0], true)
                 .map_err(|e| format!("Batch add failed: {e}"))?;
+            n_cur += 1;
             ctx.decode(&mut batch).map_err(|e| format!("Decode failed: {e}"))?;
         }
 

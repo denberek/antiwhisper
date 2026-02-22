@@ -30,6 +30,7 @@ type PostProcessProviderState = {
 };
 
 const APPLE_PROVIDER_ID = "apple_intelligence";
+const LOCAL_PROVIDER_ID = "local";
 
 export const usePostProcessProviderState = (): PostProcessProviderState => {
   const {
@@ -58,7 +59,7 @@ export const usePostProcessProviderState = (): PostProcessProviderState => {
   }, [providers, selectedProviderId]);
 
   const isAppleProvider = selectedProvider?.id === APPLE_PROVIDER_ID;
-  const isLocalProvider = selectedProvider?.id === "local";
+  const isLocalProvider = selectedProvider?.id === LOCAL_PROVIDER_ID;
   const [appleIntelligenceUnavailable, setAppleIntelligenceUnavailable] =
     useState(false);
 

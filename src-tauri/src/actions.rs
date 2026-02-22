@@ -6,7 +6,7 @@ use crate::audio_feedback::{play_feedback_sound, play_feedback_sound_blocking, S
 use crate::managers::audio::AudioRecordingManager;
 use crate::managers::history::HistoryManager;
 use crate::managers::transcription::TranscriptionManager;
-use crate::settings::{get_settings, AppSettings, APPLE_INTELLIGENCE_PROVIDER_ID};
+use crate::settings::{get_settings, AppSettings, APPLE_INTELLIGENCE_PROVIDER_ID, LOCAL_PROVIDER_ID};
 use crate::shortcut;
 use crate::tray::{change_tray_icon, TrayIconState};
 use crate::utils::{
@@ -63,6 +63,8 @@ async fn post_process_transcription(
     settings: &AppSettings,
     transcription: &str,
 ) -> Option<String> {
+    #[cfg(not(target_os = "macos"))]
+    let _ = app;
     let provider = match settings.active_post_process_provider().cloned() {
         Some(provider) => provider,
         None => {
@@ -124,6 +126,41 @@ async fn post_process_transcription(
         .cloned()
         .unwrap_or_default();
 
+    // Local on-device LLM — runs entirely offline via llama.cpp/Metal
+    #[cfg(target_os = "macos")]
+    if provider.id == LOCAL_PROVIDER_ID {
+        let app_clone = app.clone();
+        let system_prompt = build_system_prompt(&prompt);
+        let transcription_owned = transcription.to_string();
+
+        let result = tokio::task::spawn_blocking(move || {
+            let local_llm = app_clone.try_state::<local_llm::LocalLlmState>()?;
+            let mut engine = local_llm.0.lock().ok()?;
+
+            if !engine.is_loaded() {
+                let model_dir = app_clone.path().app_data_dir().ok()?;
+                let model_path = model_dir
+                    .join("models")
+                    .join("llm")
+                    .join(local_llm::LOCAL_LLM_FILENAME);
+                engine.load(&model_path).ok()?;
+            }
+
+            match engine.process(&transcription_owned, &system_prompt) {
+                Ok(result) => Some(strip_invisible_chars(&result)),
+                Err(e) => {
+                    error!("Local LLM post-processing failed: {}", e);
+                    None
+                }
+            }
+        })
+        .await
+        .ok()
+        .flatten();
+
+        return result;
+    }
+
     if provider.supports_structured_output {
         debug!("Using structured outputs for provider '{}'", provider.id);
 
@@ -172,40 +209,6 @@ async fn post_process_transcription(
                 debug!("Apple Intelligence provider selected on unsupported platform");
                 return None;
             }
-        }
-
-        #[cfg(target_os = "macos")]
-        if provider.id == "local" {
-            let app_clone = app.clone();
-            let system_prompt = build_system_prompt(&prompt);
-            let transcription_owned = transcription.to_string();
-
-            let result = tokio::task::spawn_blocking(move || {
-                let local_llm = app_clone.try_state::<local_llm::LocalLlmState>()?;
-                let mut engine = local_llm.0.lock().ok()?;
-
-                if !engine.is_loaded() {
-                    let model_dir = app_clone.path().app_data_dir().ok()?;
-                    let model_path = model_dir
-                        .join("models")
-                        .join("llm")
-                        .join("qwen3-1.7b-instruct-q4_k_m.gguf");
-                    engine.load(&model_path).ok()?;
-                }
-
-                match engine.process(&transcription_owned, &system_prompt) {
-                    Ok(result) => Some(strip_invisible_chars(&result)),
-                    Err(e) => {
-                        error!("Local LLM post-processing failed: {}", e);
-                        None
-                    }
-                }
-            })
-            .await
-            .ok()
-            .flatten();
-
-            return result;
         }
 
         // Define JSON schema for transcription output

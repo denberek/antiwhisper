@@ -435,9 +435,14 @@ pub fn run(cli_args: CliArgs) {
             initialize_core_logic(&app_handle);
             #[cfg(target_os = "macos")]
             {
-                let llm_engine =
-                    local_llm::LocalLlmEngine::new().expect("Failed to init local LLM backend");
-                app.manage(local_llm::LocalLlmState(std::sync::Mutex::new(llm_engine)));
+                match local_llm::LocalLlmEngine::new() {
+                    Ok(llm_engine) => {
+                        app.manage(local_llm::LocalLlmState(std::sync::Mutex::new(llm_engine)));
+                    }
+                    Err(e) => {
+                        log::warn!("Local LLM backend unavailable, local post-processing disabled: {e}");
+                    }
+                }
             }
 
             // Hide tray icon if --no-tray was passed
