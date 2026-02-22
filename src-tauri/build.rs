@@ -180,10 +180,11 @@ fn build_apple_intelligence_bridge() {
     // causing a redefinition error. A VFS overlay redirects the duplicate
     // `module.modulemap` to /dev/null so only `bridging.modulemap` is seen.
     let vfs_overlay_path = out_dir.join("swift_dedup_vfs.yaml");
+    // swiftc is at .../usr/bin/swiftc; two parents up is .../usr/
     let toolchain_swift_include = Path::new(&swiftc_path)
         .parent()
         .and_then(|p| p.parent())
-        .map(|root| root.join("usr/include/swift"))
+        .map(|usr| usr.join("include/swift"))
         .unwrap_or_default();
     let vfs_content = format!(
         r#"{{"version":0,"case-sensitive":false,"roots":[{{"type":"directory","name":"{}","contents":[{{"type":"file","name":"module.modulemap","external-contents":"/dev/null"}}]}}]}}"#,
