@@ -9,7 +9,7 @@ use std::path::PathBuf;
 use std::sync::Mutex;
 use std::time::Instant;
 
-pub const LOCAL_LLM_FILENAME: &str = "qwen3-1.7b-instruct-q4_k_m.gguf";
+pub const LOCAL_LLM_FILENAME: &str = "Qwen3-1.7B-Q4_K_M.gguf";
 
 pub struct LocalLlmEngine {
     backend: LlamaBackend,
