@@ -231,8 +231,6 @@ fn build_apple_intelligence_bridge() {
             "-O",
             "-vfsoverlay",
             vfs_overlay_path.to_str().expect("VFS overlay path not UTF-8"),
-            "-Xcc",
-            "-fno-precompiled-headers",
             "-import-objc-header",
             BRIDGE_HEADER,
             "-c",
