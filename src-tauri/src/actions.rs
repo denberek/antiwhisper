@@ -1,5 +1,7 @@
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 use crate::apple_intelligence;
+#[cfg(target_os = "macos")]
+use crate::local_llm;
 use crate::audio_feedback::{play_feedback_sound, play_feedback_sound_blocking, SoundType};
 use crate::managers::audio::AudioRecordingManager;
 use crate::managers::history::HistoryManager;
@@ -56,7 +58,11 @@ fn build_system_prompt(prompt_template: &str) -> String {
     prompt_template.replace("${output}", "").trim().to_string()
 }
 
-async fn post_process_transcription(settings: &AppSettings, transcription: &str) -> Option<String> {
+async fn post_process_transcription(
+    app: &AppHandle,
+    settings: &AppSettings,
+    transcription: &str,
+) -> Option<String> {
     let provider = match settings.active_post_process_provider().cloned() {
         Some(provider) => provider,
         None => {
@@ -166,6 +172,40 @@ async fn post_process_transcription(settings: &AppSettings, transcription: &str)
                 debug!("Apple Intelligence provider selected on unsupported platform");
                 return None;
             }
+        }
+
+        #[cfg(target_os = "macos")]
+        if provider.id == "local" {
+            let app_clone = app.clone();
+            let system_prompt = build_system_prompt(&prompt);
+            let transcription_owned = transcription.to_string();
+
+            let result = tokio::task::spawn_blocking(move || {
+                let local_llm = app_clone.try_state::<local_llm::LocalLlmState>()?;
+                let mut engine = local_llm.0.lock().ok()?;
+
+                if !engine.is_loaded() {
+                    let model_dir = app_clone.path().app_data_dir().ok()?;
+                    let model_path = model_dir
+                        .join("models")
+                        .join("llm")
+                        .join("qwen3-1.7b-instruct-q4_k_m.gguf");
+                    engine.load(&model_path).ok()?;
+                }
+
+                match engine.process(&transcription_owned, &system_prompt) {
+                    Ok(result) => Some(strip_invisible_chars(&result)),
+                    Err(e) => {
+                        error!("Local LLM post-processing failed: {}", e);
+                        None
+                    }
+                }
+            })
+            .await
+            .ok()
+            .flatten();
+
+            return result;
         }
 
         // Define JSON schema for transcription output
@@ -446,7 +486,7 @@ impl ShortcutAction for TranscribeAction {
                                 show_processing_overlay(&ah);
                             }
                             let processed = if post_process {
-                                post_process_transcription(&settings, &final_text).await
+                                post_process_transcription(&ah, &settings, &final_text).await
                             } else {
                                 None
                             };
