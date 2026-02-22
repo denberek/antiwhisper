@@ -192,14 +192,15 @@ fn build_apple_intelligence_bridge() {
     );
     std::fs::write(&vfs_overlay_path, vfs_content).expect("Failed to write VFS overlay");
 
-    // Use macOS 11.0 as deployment target for compatibility
-    // The @available(macOS 26.0, *) checks in Swift handle runtime availability
-    // Weak linking for FoundationModels is handled via cargo:rustc-link-arg below
+    // Use macOS 26.0 as deployment target so the @Generable macro and other
+    // FoundationModels types compile correctly (macros gated on 26.0 don't
+    // expand when the deployment target is below 26.0).
+    // Weak linking for FoundationModels is handled via cargo:rustc-link-arg below.
     let status = Command::new("xcrun")
         .args([
             "swiftc",
             "-target",
-            "arm64-apple-macosx11.0",
+            "arm64-apple-macosx26.0",
             "-sdk",
             &sdk_path,
             "-O",
