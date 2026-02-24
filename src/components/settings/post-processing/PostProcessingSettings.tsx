@@ -45,7 +45,7 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
       </SettingContainer>
 
       {state.isLocalProvider ? (
-        <SettingContainer title={t("settings.postProcessing.api.local.status")}>
+        <SettingContainer title={t("settings.postProcessing.api.local.status")} description="">
           <span>{t("settings.postProcessing.api.local.modelInfo")}</span>
         </SettingContainer>
       ) : state.isAppleProvider ? (

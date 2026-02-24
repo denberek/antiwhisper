@@ -134,16 +134,36 @@ async fn post_process_transcription(
         let transcription_owned = transcription.to_string();
 
         let result = tokio::task::spawn_blocking(move || {
-            let local_llm = app_clone.try_state::<local_llm::LocalLlmState>()?;
-            let mut engine = local_llm.0.lock().ok()?;
+            let local_llm = match app_clone.try_state::<local_llm::LocalLlmState>() {
+                Some(state) => state,
+                None => {
+                    error!("LocalLlmState not registered in app state");
+                    return None;
+                }
+            };
+            let mut engine = match local_llm.0.lock() {
+                Ok(guard) => guard,
+                Err(e) => {
+                    error!("Local LLM mutex poisoned: {}", e);
+                    return None;
+                }
+            };
 
             if !engine.is_loaded() {
-                let model_dir = app_clone.path().app_data_dir().ok()?;
+                let model_dir = match app_clone.path().app_data_dir() {
+                    Ok(dir) => dir,
+                    Err(e) => {
+                        error!("Failed to get app data dir: {}", e);
+                        return None;
+                    }
+                };
                 let model_path = model_dir
                     .join("models")
-                    .join("llm")
                     .join(local_llm::LOCAL_LLM_FILENAME);
-                engine.load(&model_path).ok()?;
+                if let Err(e) = engine.load(&model_path) {
+                    error!("Failed to load local LLM: {}", e);
+                    return None;
+                }
             }
 
             match engine.process(&transcription_owned, &system_prompt) {
@@ -155,8 +175,10 @@ async fn post_process_transcription(
             }
         })
         .await
-        .ok()
-        .flatten();
+        .unwrap_or_else(|e| {
+            error!("Local LLM spawn_blocking task failed: {}", e);
+            None
+        });
 
         return result;
     }

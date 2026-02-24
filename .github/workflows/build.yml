@@ -263,6 +263,11 @@ jobs:
           fi
           echo "platform=${patched_platform}" >> $GITHUB_OUTPUT
 
+      - name: Download llama-server binary (macOS sidecar)
+        if: contains(inputs.platform, 'macos')
+        shell: bash
+        run: bash scripts/download-llama-server.sh --target ${{ inputs.target }}
+
       - name: Build with Tauri
         uses: tauri-apps/tauri-action@v0
         env:

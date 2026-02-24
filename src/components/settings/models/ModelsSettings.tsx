@@ -152,6 +152,8 @@ export const ModelsSettings: React.FC = () => {
   // Filter models based on language filter
   const filteredModels = useMemo(() => {
     return models.filter((model: ModelInfo) => {
+      // Hide LLM models from the transcription models settings
+      if (model.engine_type === "LocalLlm") return false;
       if (languageFilter !== "all") {
         if (!modelSupportsLanguage(model, languageFilter)) return false;
       }

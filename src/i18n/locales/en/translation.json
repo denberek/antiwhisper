@@ -17,12 +17,18 @@
     "about": "About"
   },
   "onboarding": {
-    "subtitle": "To get started, choose a transcription model",
+    "subtitle": "To get started, download the recommended models",
     "recommended": "Recommended",
     "download": "Download",
     "downloading": "Downloading...",
     "customModelDescription": "Not officially supported",
     "downloadFailed": "Download failed. Please try again.",
+    "recommendedSection": "Recommended",
+    "transcriptionModel": "Transcription",
+    "postProcessingModel": "Post-processing",
+    "downloadRecommended": "Download",
+    "totalSize": "{{size}} total",
+    "alternativeSection": "Or choose a different transcription model",
     "modelCard": {
       "accuracy": "accuracy",
       "speed": "speed"
@@ -83,7 +89,7 @@
     },
     "permissions": {
       "title": "Permissions Required",
-      "description": "Handy needs a couple of permissions to work properly.",
+      "description": "VoicePen needs a couple of permissions to work properly.",
       "microphone": {
         "title": "Microphone Access",
         "description": "Required to hear your voice for transcription."
@@ -139,7 +145,7 @@
     "general": {
       "title": "General",
       "shortcut": {
-        "title": "Handy Shortcuts",
+        "title": "VoicePen Shortcuts",
         "description": "Configure keyboard shortcuts to trigger speech-to-text recording",
         "loading": "Loading shortcuts...",
         "none": "No shortcuts configured",
@@ -238,11 +244,11 @@
       },
       "autostart": {
         "label": "Launch on Startup",
-        "description": "Automatically start Handy when you log in to your computer."
+        "description": "Automatically start VoicePen when you log in to your computer."
       },
       "showTrayIcon": {
         "label": "Show Tray Icon",
-        "description": "Display the Handy icon in the system tray."
+        "description": "Display the VoicePen icon in the system tray."
       },
       "overlay": {
         "title": "Overlay Position",
@@ -326,7 +332,7 @@
         "title": "Hotkey"
       },
       "api": {
-        "title": "API (OpenAI Compatible)",
+        "title": "Model",
         "provider": {
           "title": "Provider",
           "description": "Select an OpenAI-compatible provider."
@@ -339,7 +345,7 @@
         },
         "local": {
           "status": "Local Model",
-          "modelInfo": "Qwen3 1.7B — No internet required"
+          "modelInfo": "Qwen2.5 1.5B — No internet required"
         },
         "baseUrl": {
           "title": "Base URL",
@@ -407,7 +413,7 @@
       },
       "updateChecks": {
         "label": "Check for Updates",
-        "description": "Automatically check for new versions of Handy"
+        "description": "Automatically check for new versions of VoicePen"
       },
       "soundTheme": {
         "label": "Sound Theme",
@@ -471,11 +477,11 @@
       "title": "About",
       "version": {
         "title": "Version",
-        "description": "Current version of Handy"
+        "description": "Current version of VoicePen"
       },
       "appDataDirectory": {
         "title": "App Data Directory",
-        "description": "Location where Handy stores its data"
+        "description": "Location where VoicePen stores its data"
       },
       "sourceCode": {
         "title": "Source Code",
@@ -484,15 +490,20 @@
       },
       "supportDevelopment": {
         "title": "Support Development",
-        "description": "Help us continue building Handy",
+        "description": "Help us continue building VoicePen",
         "button": "Donate"
       },
       "acknowledgments": {
         "title": "Acknowledgments",
+        "handy": {
+          "title": "Handy by CJ Pais",
+          "description": "VoicePen is based on Handy, the original open-source speech-to-text application.",
+          "link": "View on GitHub"
+        },
         "whisper": {
           "title": "Whisper.cpp",
           "description": "High-performance inference of OpenAI's Whisper automatic speech recognition model",
-          "details": "Handy uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
+          "details": "VoicePen uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
     }
@@ -535,7 +546,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Accessibility Permissions Required",
-    "permissionsDescription": "Handy needs accessibility permissions to type transcribed text.",
+    "permissionsDescription": "VoicePen needs accessibility permissions to type transcribed text.",
     "openSettings": "Open System Settings",
     "dismiss": "Dismiss"
   },
@@ -544,7 +555,7 @@
   },
   "appLanguage": {
     "title": "Application Language",
-    "description": "Change the language of the Handy interface"
+    "description": "Change the language of the VoicePen interface"
   },
   "overlay": {
     "transcribing": "Transcribing...",

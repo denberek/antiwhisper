@@ -16,13 +16,14 @@ use std::time::{Duration, Instant};
 use tar::Archive;
 use tauri::{AppHandle, Emitter, Manager};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Type)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
 pub enum EngineType {
     Whisper,
     Parakeet,
     Moonshine,
     MoonshineStreaming,
     SenseVoice,
+    LocalLlm,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
@@ -397,6 +398,30 @@ impl ModelManager {
             },
         );
 
+        // Local LLM model for post-processing (macOS only at runtime, but registered on all platforms)
+        available_models.insert(
+            "qwen-2.5-1.5b".to_string(),
+            ModelInfo {
+                id: "qwen-2.5-1.5b".to_string(),
+                name: "Qwen 2.5".to_string(),
+                description: "Post-processing".to_string(),
+                filename: "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf".to_string(),
+                url: Some("https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf".to_string()),
+                size_mb: 1100,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                is_directory: false,
+                engine_type: EngineType::LocalLlm,
+                accuracy_score: 0.0,
+                speed_score: 0.0,
+                supports_translation: false,
+                is_recommended: true,
+                supported_languages: vec![],
+                is_custom: false,
+            },
+        );
+
         // Auto-discover custom Whisper models (.bin files) in the models directory
         if let Err(e) = Self::discover_custom_whisper_models(&models_dir, &mut available_models) {
             warn!("Failed to discover custom models: {}", e);
@@ -535,7 +560,7 @@ impl ModelManager {
         if settings.selected_model.is_empty() {
             // Find the first available (downloaded) model
             let models = self.available_models.lock().unwrap();
-            if let Some(available_model) = models.values().find(|model| model.is_downloaded) {
+            if let Some(available_model) = models.values().find(|model| model.is_downloaded && model.engine_type != EngineType::LocalLlm) {
                 info!(
                     "Auto-selecting model: {} ({})",
                     available_model.id, available_model.name

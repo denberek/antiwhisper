@@ -346,6 +346,9 @@ impl TranscriptionManager {
                     })?;
                 LoadedEngine::SenseVoice(engine)
             }
+            EngineType::LocalLlm => {
+                return Err(anyhow::anyhow!("LLM models are not loaded through the transcription manager"));
+            }
         };
 
         // Update the current engine and model ID
