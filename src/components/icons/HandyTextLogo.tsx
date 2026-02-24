@@ -1,6 +1,6 @@
 import React from "react";
 
-const VoicePenLogo = ({
+const AntiwhisperLogo = ({
   width,
   height,
   className,
@@ -52,4 +52,4 @@ l-26 -21 0 -1161 0 -1160 33 5 c34 6 207 41 243 49 20 4 21 13 27 188 4 100
   );
 };
 
-export default VoicePenLogo;
+export default AntiwhisperLogo;

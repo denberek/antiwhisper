@@ -26,7 +26,7 @@ export const DebugPaths: React.FC<DebugPathsProps> = ({
             {t("settings.debug.paths.appData")}
           </span>{" "}
           {/* eslint-disable-next-line i18next/no-literal-string */}
-          <span className="font-mono text-xs select-text">%APPDATA%/voicepen</span>
+          <span className="font-mono text-xs select-text">%APPDATA%/antiwhisper</span>
         </div>
         <div>
           <span className="font-medium">
@@ -34,7 +34,7 @@ export const DebugPaths: React.FC<DebugPathsProps> = ({
           </span>{" "}
           {/* eslint-disable-next-line i18next/no-literal-string */}
           <span className="font-mono text-xs select-text">
-            %APPDATA%/voicepen/models
+            %APPDATA%/antiwhisper/models
           </span>
         </div>
         <div>
@@ -43,7 +43,7 @@ export const DebugPaths: React.FC<DebugPathsProps> = ({
           </span>{" "}
           {/* eslint-disable-next-line i18next/no-literal-string */}
           <span className="font-mono text-xs select-text">
-            %APPDATA%/voicepen/settings_store.json
+            %APPDATA%/antiwhisper/settings_store.json
           </span>
         </div>
       </div>

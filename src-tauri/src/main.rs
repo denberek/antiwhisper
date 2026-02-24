@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use clap::Parser;
-use voicepen_app_lib::CliArgs;
+use antiwhisper_app_lib::CliArgs;
 
 fn main() {
     let cli_args = CliArgs::parse();
@@ -14,5 +14,5 @@ fn main() {
         std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
     }
 
-    voicepen_app_lib::run(cli_args)
+    antiwhisper_app_lib::run(cli_args)
 }

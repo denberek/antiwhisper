@@ -1,26 +1,26 @@
-# Getting Started with VoicePen
+# Getting Started with antiwhisper
 
-A quick guide to get up and running with VoicePen on macOS.
+A quick guide to get up and running with antiwhisper on macOS.
 
 ## Installation
 
-1. Download **VoicePen_0.7.7_aarch64.dmg** from the [Releases page](https://github.com/denberek/VoicePen/releases)
-2. Open the DMG and drag **VoicePen** into your Applications folder
-3. **Important:** Right-click VoicePen in Applications → click **Open** (required on first launch since the app is not code-signed)
+1. Download **antiwhisper_0.7.7_aarch64.dmg** from the [Releases page](https://github.com/denberek/antiwhisper/releases)
+2. Open the DMG and drag **antiwhisper** into your Applications folder
+3. **Important:** Right-click antiwhisper in Applications → click **Open** (required on first launch since the app is not code-signed)
 4. macOS will ask "Are you sure you want to open it?" → click **Open**
 
 ## Granting Permissions
 
-On first launch, VoicePen will ask for two system permissions:
+On first launch, antiwhisper will ask for two system permissions:
 
 - **Microphone** — required to hear your voice
 - **Accessibility** — required to type the transcribed text into your apps
 
-Click the **Grant** button for each. macOS will open System Settings where you toggle VoicePen on.
+Click the **Grant** button for each. macOS will open System Settings where you toggle antiwhisper on.
 
 ## Downloading Models
 
-After permissions are granted, VoicePen downloads two AI models:
+After permissions are granted, antiwhisper downloads two AI models:
 
 | Model | Purpose | Size |
 |-------|---------|------|
@@ -49,7 +49,7 @@ Press **Escape** or click **Cancel** on the overlay to discard a recording.
 ## Settings
 
 Access settings by:
-- Clicking the VoicePen icon in the menu bar → **Settings**
+- Clicking the antiwhisper icon in the menu bar → **Settings**
 - Or pressing **Cmd + ,**
 
 ### Key Settings
@@ -65,7 +65,7 @@ Access settings by:
 
 ## Tips
 
-- **Tray icon**: VoicePen lives in your menu bar. Click it for quick access to settings or to copy your last transcript.
+- **Tray icon**: antiwhisper lives in your menu bar. Click it for quick access to settings or to copy your last transcript.
 - **History**: Go to Settings → History to see and replay past transcriptions.
 - **Custom words**: Add frequently misheard words in Settings → Advanced → Custom Words.
 - **Model switching**: Go to Settings → Models to try different speech recognition engines.
@@ -88,6 +88,6 @@ Access settings by:
 
 ## Uninstalling
 
-1. Quit VoicePen (menu bar icon → Quit, or Cmd+Q)
-2. Delete VoicePen from Applications
-3. Optionally remove app data: `~/Library/Application Support/com.denberek.voicepen/`
+1. Quit antiwhisper (menu bar icon → Quit, or Cmd+Q)
+2. Delete antiwhisper from Applications
+3. Optionally remove app data: `~/Library/Application Support/com.denberek.antiwhisper/`

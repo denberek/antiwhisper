@@ -1,8 +1,8 @@
-# VoicePen
+# antiwhisper
 
 **A free, open-source, privacy-focused speech-to-text app that runs entirely on your machine.**
 
-VoicePen is a cross-platform desktop application built with Tauri (Rust + React/TypeScript). Press a shortcut, speak, and your words appear in any text field — without sending audio to the cloud.
+antiwhisper is a cross-platform desktop application built with Tauri (Rust + React/TypeScript). Press a shortcut, speak, and your words appear in any text field — without sending audio to the cloud.
 
 ## How It Works
 
@@ -17,8 +17,8 @@ Everything runs locally — your voice never leaves your computer.
 
 ### macOS Installation
 
-1. Download the latest `.dmg` from the [Releases page](https://github.com/denberek/VoicePen/releases)
-2. Drag VoicePen to Applications
+1. Download the latest `.dmg` from the [Releases page](https://github.com/denberek/antiwhisper/releases)
+2. Drag antiwhisper to Applications
 3. Right-click the app → **Open** (required on first launch since the app is not notarized)
 4. Grant **Microphone** and **Accessibility** permissions when prompted
 5. Download the recommended models on first launch (~1 GB total)
@@ -50,7 +50,7 @@ bun run tauri dev
 
 ## Architecture
 
-VoicePen is built as a Tauri application:
+antiwhisper is built as a Tauri application:
 
 - **Frontend**: React + TypeScript with Tailwind CSS
 - **Backend**: Rust for system integration, audio processing, and ML inference
@@ -63,17 +63,17 @@ VoicePen is built as a Tauri application:
 
 ### CLI Parameters
 
-VoicePen supports command-line flags for scripting and integration:
+antiwhisper supports command-line flags for scripting and integration:
 
 ```bash
-voicepen --toggle-transcription    # Toggle recording on/off
-voicepen --toggle-post-process     # Toggle recording with post-processing
-voicepen --cancel                  # Cancel current operation
-voicepen --start-hidden            # Launch to tray without window
-voicepen --debug                   # Enable verbose logging
+antiwhisper --toggle-transcription    # Toggle recording on/off
+antiwhisper --toggle-post-process     # Toggle recording with post-processing
+antiwhisper --cancel                  # Cancel current operation
+antiwhisper --start-hidden            # Launch to tray without window
+antiwhisper --debug                   # Enable verbose logging
 ```
 
-> **macOS bundle:** `/Applications/VoicePen.app/Contents/MacOS/VoicePen --toggle-transcription`
+> **macOS bundle:** `/Applications/antiwhisper.app/Contents/MacOS/antiwhisper --toggle-transcription`
 
 ### Debug Mode
 
@@ -103,10 +103,10 @@ System-level shortcuts must be configured through your desktop environment. Use 
 
 ```bash
 # Sway/i3
-bindsym $mod+o exec voicepen --toggle-transcription
+bindsym $mod+o exec antiwhisper --toggle-transcription
 
 # Hyprland
-bind = $mainMod, O, exec, voicepen --toggle-transcription
+bind = $mainMod, O, exec, antiwhisper --toggle-transcription
 ```
 
 Unix signals also work:
@@ -133,9 +133,9 @@ If startup fails with `libgtk-layer-shell.so.0` error:
 If you're behind a proxy or firewall, download models manually:
 
 **App data directory:**
-- **macOS**: `~/Library/Application Support/com.denberek.voicepen/`
-- **Windows**: `C:\Users\{username}\AppData\Roaming\com.denberek.voicepen\`
-- **Linux**: `~/.config/com.denberek.voicepen/`
+- **macOS**: `~/Library/Application Support/com.denberek.antiwhisper/`
+- **Windows**: `C:\Users\{username}\AppData\Roaming\com.denberek.antiwhisper\`
+- **Linux**: `~/.config/com.denberek.antiwhisper/`
 
 Create a `models` folder inside and download from:
 
@@ -148,11 +148,11 @@ Create a `models` folder inside and download from:
 | Parakeet V2 | 473 MB | `https://blob.handy.computer/parakeet-v2-int8.tar.gz` |
 | Parakeet V3 | 478 MB | `https://blob.handy.computer/parakeet-v3-int8.tar.gz` |
 
-Place `.bin` files directly in `models/`. Extract `.tar.gz` archives so the directory name matches exactly (e.g., `parakeet-tdt-0.6b-v3-int8/`). Restart VoicePen to detect them.
+Place `.bin` files directly in `models/`. Extract `.tar.gz` archives so the directory name matches exactly (e.g., `parakeet-tdt-0.6b-v3-int8/`). Restart antiwhisper to detect them.
 
 ### Custom Whisper Models
 
-Place any Whisper GGML `.bin` file in the `models` directory. VoicePen will auto-discover it on restart.
+Place any Whisper GGML `.bin` file in the `models` directory. antiwhisper will auto-discover it on restart.
 
 ## System Requirements
 
@@ -166,14 +166,14 @@ Place any Whisper GGML `.bin` file in the `models` directory. VoicePen will auto
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-1. Check [existing issues](https://github.com/denberek/VoicePen/issues)
+1. Check [existing issues](https://github.com/denberek/antiwhisper/issues)
 2. Fork and create a feature branch
 3. Test on your target platform
 4. Submit a pull request
 
 ## Attribution
 
-VoicePen is a fork of [Handy](https://github.com/cjpais/Handy) by CJ Pais — a free, open-source speech-to-text application. We're grateful for the foundation CJ built and the community around it.
+antiwhisper is a fork of [Handy](https://github.com/cjpais/Handy) by CJ Pais — a free, open-source speech-to-text application. We're grateful for the foundation CJ built and the community around it.
 
 ## License
 

@@ -228,7 +228,7 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
 
   // Show permissions request screen
   return (
-    <div className="h-screen w-screen flex flex-col p-6 gap-6 items-center justify-center">
+    <div className="h-screen w-screen flex flex-col p-6 pt-12 gap-6 items-center justify-center">
       <div className="max-w-md w-full flex flex-col items-center gap-4">
         <div className="text-center mb-2">
           <h2 className="text-xl font-semibold text-text mb-2">

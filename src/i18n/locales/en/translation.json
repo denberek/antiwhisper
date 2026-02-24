@@ -89,7 +89,7 @@
     },
     "permissions": {
       "title": "Permissions Required",
-      "description": "VoicePen needs a couple of permissions to work properly.",
+      "description": "antiwhisper needs a couple of permissions to work properly.",
       "microphone": {
         "title": "Microphone Access",
         "description": "Required to hear your voice for transcription."
@@ -145,7 +145,7 @@
     "general": {
       "title": "General",
       "shortcut": {
-        "title": "VoicePen Shortcuts",
+        "title": "antiwhisper Shortcuts",
         "description": "Configure keyboard shortcuts to trigger speech-to-text recording",
         "loading": "Loading shortcuts...",
         "none": "No shortcuts configured",
@@ -244,11 +244,11 @@
       },
       "autostart": {
         "label": "Launch on Startup",
-        "description": "Automatically start VoicePen when you log in to your computer."
+        "description": "Automatically start antiwhisper when you log in to your computer."
       },
       "showTrayIcon": {
         "label": "Show Tray Icon",
-        "description": "Display the VoicePen icon in the system tray."
+        "description": "Display the antiwhisper icon in the system tray."
       },
       "overlay": {
         "title": "Overlay Position",
@@ -413,7 +413,7 @@
       },
       "updateChecks": {
         "label": "Check for Updates",
-        "description": "Automatically check for new versions of VoicePen"
+        "description": "Automatically check for new versions of antiwhisper"
       },
       "soundTheme": {
         "label": "Sound Theme",
@@ -477,11 +477,11 @@
       "title": "About",
       "version": {
         "title": "Version",
-        "description": "Current version of VoicePen"
+        "description": "Current version of antiwhisper"
       },
       "appDataDirectory": {
         "title": "App Data Directory",
-        "description": "Location where VoicePen stores its data"
+        "description": "Location where antiwhisper stores its data"
       },
       "sourceCode": {
         "title": "Source Code",
@@ -490,20 +490,20 @@
       },
       "supportDevelopment": {
         "title": "Support Development",
-        "description": "Help us continue building VoicePen",
+        "description": "Help us continue building antiwhisper",
         "button": "Donate"
       },
       "acknowledgments": {
         "title": "Acknowledgments",
         "handy": {
           "title": "Handy by CJ Pais",
-          "description": "VoicePen is based on Handy, the original open-source speech-to-text application.",
+          "description": "antiwhisper is based on Handy, the original open-source speech-to-text application.",
           "link": "View on GitHub"
         },
         "whisper": {
           "title": "Whisper.cpp",
           "description": "High-performance inference of OpenAI's Whisper automatic speech recognition model",
-          "details": "VoicePen uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
+          "details": "antiwhisper uses Whisper.cpp for fast, local speech-to-text processing. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
     }
@@ -546,7 +546,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Accessibility Permissions Required",
-    "permissionsDescription": "VoicePen needs accessibility permissions to type transcribed text.",
+    "permissionsDescription": "antiwhisper needs accessibility permissions to type transcribed text.",
     "openSettings": "Open System Settings",
     "dismiss": "Dismiss"
   },
@@ -555,7 +555,7 @@
   },
   "appLanguage": {
     "title": "Application Language",
-    "description": "Change the language of the VoicePen interface"
+    "description": "Change the language of the antiwhisper interface"
   },
   "overlay": {
     "transcribing": "Transcribing...",

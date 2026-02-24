@@ -148,6 +148,65 @@ dependencies = [
 ]
 
 [[package]]
+name = "antiwhisper"
+version = "0.7.7"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "clap",
+ "cpal",
+ "enigo",
+ "env_filter",
+ "ferrous-opencc",
+ "flate2",
+ "futures-util",
+ "gtk",
+ "gtk-layer-shell",
+ "handy-keys",
+ "hound",
+ "log",
+ "natural",
+ "once_cell",
+ "rdev 0.5.0-2",
+ "regex",
+ "reqwest",
+ "rodio",
+ "rubato",
+ "rusqlite",
+ "rusqlite_migration",
+ "rustfft",
+ "serde",
+ "serde_json",
+ "signal-hook",
+ "specta",
+ "specta-typescript",
+ "strsim",
+ "tar",
+ "tauri",
+ "tauri-build",
+ "tauri-nspanel",
+ "tauri-plugin-autostart",
+ "tauri-plugin-clipboard-manager",
+ "tauri-plugin-dialog",
+ "tauri-plugin-fs",
+ "tauri-plugin-global-shortcut",
+ "tauri-plugin-log",
+ "tauri-plugin-macos-permissions",
+ "tauri-plugin-opener",
+ "tauri-plugin-os",
+ "tauri-plugin-process",
+ "tauri-plugin-single-instance",
+ "tauri-plugin-store",
+ "tauri-plugin-updater",
+ "tauri-specta",
+ "tempfile",
+ "tokio",
+ "transcribe-rs",
+ "vad-rs",
+ "windows 0.61.3",
+]
+
+[[package]]
 name = "anyhow"
 version = "1.0.100"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7314,65 +7373,6 @@ name = "virtue"
 version = "0.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "051eb1abcf10076295e815102942cc58f9d5e3b4560e46e53c21e8ff6f3af7b1"
-
-[[package]]
-name = "voicepen"
-version = "0.7.7"
-dependencies = [
- "anyhow",
- "chrono",
- "clap",
- "cpal",
- "enigo",
- "env_filter",
- "ferrous-opencc",
- "flate2",
- "futures-util",
- "gtk",
- "gtk-layer-shell",
- "handy-keys",
- "hound",
- "log",
- "natural",
- "once_cell",
- "rdev 0.5.0-2",
- "regex",
- "reqwest",
- "rodio",
- "rubato",
- "rusqlite",
- "rusqlite_migration",
- "rustfft",
- "serde",
- "serde_json",
- "signal-hook",
- "specta",
- "specta-typescript",
- "strsim",
- "tar",
- "tauri",
- "tauri-build",
- "tauri-nspanel",
- "tauri-plugin-autostart",
- "tauri-plugin-clipboard-manager",
- "tauri-plugin-dialog",
- "tauri-plugin-fs",
- "tauri-plugin-global-shortcut",
- "tauri-plugin-log",
- "tauri-plugin-macos-permissions",
- "tauri-plugin-opener",
- "tauri-plugin-os",
- "tauri-plugin-process",
- "tauri-plugin-single-instance",
- "tauri-plugin-store",
- "tauri-plugin-updater",
- "tauri-specta",
- "tempfile",
- "tokio",
- "transcribe-rs",
- "vad-rs",
- "windows 0.61.3",
-]
 
 [[package]]
 name = "vswhom"

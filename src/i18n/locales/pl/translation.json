@@ -83,7 +83,7 @@
     },
     "permissions": {
       "title": "Wymagane uprawnienia",
-      "description": "VoicePen potrzebuje kilku uprawnień, aby działać poprawnie.",
+      "description": "antiwhisper potrzebuje kilku uprawnień, aby działać poprawnie.",
       "microphone": {
         "title": "Dostęp do mikrofonu",
         "description": "Wymagany do słyszenia Twojego głosu w celu transkrypcji."
@@ -157,7 +157,7 @@
     "general": {
       "title": "Ogólne",
       "shortcut": {
-        "title": "Skróty VoicePen",
+        "title": "Skróty antiwhisper",
         "description": "Skonfiguruj skróty klawiaturowe do uruchamiania nagrywania mowy",
         "loading": "Wczytywanie skrótów...",
         "none": "Brak skonfigurowanych skrótów",
@@ -238,11 +238,11 @@
       },
       "autostart": {
         "label": "Uruchamiaj przy starcie",
-        "description": "Automatycznie uruchamiaj VoicePen po zalogowaniu."
+        "description": "Automatycznie uruchamiaj antiwhisper po zalogowaniu."
       },
       "showTrayIcon": {
         "label": "Pokaż ikonę w zasobniku",
-        "description": "Wyświetlaj ikonę VoicePen w zasobniku systemowym."
+        "description": "Wyświetlaj ikonę antiwhisper w zasobniku systemowym."
       },
       "overlay": {
         "title": "Pozycja nakładki",
@@ -403,7 +403,7 @@
       },
       "updateChecks": {
         "label": "Sprawdzaj aktualizacje",
-        "description": "Automatycznie sprawdzaj nowe wersje VoicePen"
+        "description": "Automatycznie sprawdzaj nowe wersje antiwhisper"
       },
       "soundTheme": {
         "label": "Motyw dźwiękowy",
@@ -467,11 +467,11 @@
       "title": "O programie",
       "version": {
         "title": "Wersja",
-        "description": "Aktualna wersja VoicePen"
+        "description": "Aktualna wersja antiwhisper"
       },
       "appDataDirectory": {
         "title": "Katalog danych aplikacji",
-        "description": "Miejsce, gdzie VoicePen przechowuje swoje dane"
+        "description": "Miejsce, gdzie antiwhisper przechowuje swoje dane"
       },
       "sourceCode": {
         "title": "Kod źródłowy",
@@ -480,7 +480,7 @@
       },
       "supportDevelopment": {
         "title": "Wspieraj rozwój",
-        "description": "Pomóż nam dalej rozwijać VoicePen",
+        "description": "Pomóż nam dalej rozwijać antiwhisper",
         "button": "Wesprzyj"
       },
       "acknowledgments": {
@@ -488,7 +488,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Wydajne wykonywanie modelu rozpoznawania mowy Whisper od OpenAI",
-          "details": "VoicePen używa Whisper.cpp do szybkiego, lokalnego przetwarzania mowy na tekst. Dzięki niesamowitej pracy Georgi Gerganova i współtwórców."
+          "details": "antiwhisper używa Whisper.cpp do szybkiego, lokalnego przetwarzania mowy na tekst. Dzięki niesamowitej pracy Georgi Gerganova i współtwórców."
         }
       }
     }
@@ -531,7 +531,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Wymagane uprawnienia dostępności",
-    "permissionsDescription": "VoicePen potrzebuje uprawnień dostępności, aby wpisywać transkrybowany tekst.",
+    "permissionsDescription": "antiwhisper potrzebuje uprawnień dostępności, aby wpisywać transkrybowany tekst.",
     "openSettings": "Otwórz ustawienia systemowe",
     "dismiss": "Zamknij"
   },
@@ -540,7 +540,7 @@
   },
   "appLanguage": {
     "title": "Język aplikacji",
-    "description": "Zmień język interfejsu VoicePen"
+    "description": "Zmień język interfejsu antiwhisper"
   },
   "overlay": {
     "transcribing": "Transkrypcja...",
