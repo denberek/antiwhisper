@@ -38,6 +38,8 @@ Wait for both downloads to complete. The app will automatically advance once rea
 3. Press **Option + Space** again to stop
 4. The transcribed text is automatically pasted into your active text field
 
+> **Note:** The first transcription after launch loads the model into memory, so it may take a few extra seconds. Every transcription after that will be near-instant.
+
 ### With AI Post-Processing
 
 Hold **Option** (left Option key alone) to record with AI cleanup. This mode fixes spelling, punctuation, capitalization, and removes filler words before pasting.
