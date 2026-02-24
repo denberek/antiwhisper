@@ -21,7 +21,7 @@ Everything runs locally — your voice never leaves your computer.
 2. Drag antiwhisper to Applications
 3. Right-click the app → **Open** (required on first launch since the app is not notarized)
 4. Grant **Microphone** and **Accessibility** permissions when prompted
-5. Download the recommended models on first launch (~1 GB total)
+5. Download the recommended models on first launch (~1.6 GB total)
 6. Start transcribing!
 
 > See [GETTING_STARTED.md](GETTING_STARTED.md) for a detailed first-time setup guide.
@@ -160,7 +160,7 @@ Place any Whisper GGML `.bin` file in the `models` directory. antiwhisper will a
 
 **Whisper models:** GPU recommended — Metal on macOS, Vulkan on Windows/Linux.
 
-**Disk space:** ~1.5 GB for recommended models (Parakeet V3 + Qwen 2.5).
+**Disk space:** ~2 GB for recommended models (Parakeet V3 + Qwen 2.5).
 
 ## Contributing
 

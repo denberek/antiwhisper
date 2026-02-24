@@ -25,7 +25,7 @@ After permissions are granted, antiwhisper downloads two AI models:
 | Model | Purpose | Size |
 |-------|---------|------|
 | **Parakeet V3** | Speech-to-text transcription | ~478 MB |
-| **Qwen 2.5 1.5B** | AI text cleanup (post-processing) | ~350 MB |
+| **Qwen 2.5 1.5B** | AI text cleanup (post-processing) | ~1.1 GB |
 
 Wait for both downloads to complete. The app will automatically advance once ready.
 
@@ -83,7 +83,7 @@ Access settings by:
 ## System Requirements
 
 - macOS 10.15 or later (Apple Silicon or Intel)
-- ~1.5 GB disk space for models
+- ~2 GB disk space for models
 - A microphone (built-in or external)
 
 ## Uninstalling
