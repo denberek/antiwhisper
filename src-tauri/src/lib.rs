@@ -491,6 +491,20 @@ pub fn run(cli_args: CliArgs) {
             _ => {}
         })
         .invoke_handler(specta_builder.invoke_handler())
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while building tauri application")
+        .run(|app_handle, event| {
+            if let tauri::RunEvent::Exit = event {
+                // Explicitly clean up the llama-server subprocess.
+                // Drop impls don't run because Tauri calls std::process::exit().
+                #[cfg(target_os = "macos")]
+                {
+                    if let Some(state) = app_handle.try_state::<local_llm::LocalLlmState>() {
+                        if let Ok(mut engine) = state.0.lock() {
+                            engine.unload();
+                        }
+                    }
+                }
+            }
+        });
 }
