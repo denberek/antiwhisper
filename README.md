@@ -40,7 +40,7 @@ bun run tauri dev
 ## Features
 
 - **Multiple STT models** — Parakeet V3 (recommended, fast, CPU-only), Whisper variants (Small/Medium/Turbo/Large), Moonshine, SenseVoice, and more
-- **Local AI post-processing** — Qwen 2.5 1.5B cleans up transcriptions on-device (macOS)
+- **Local AI post-processing** — Gemma 3 1B cleans up transcriptions on-device (macOS)
 - **Configurable shortcuts** — customize recording, post-processing, and cancel hotkeys
 - **Push-to-talk or toggle mode** — hold to record or press to start/stop
 - **Recording overlay** — visual feedback while recording and transcribing
@@ -160,7 +160,7 @@ Place any Whisper GGML `.bin` file in the `models` directory. antiwhisper will a
 
 **Whisper models:** GPU recommended — Metal on macOS, Vulkan on Windows/Linux.
 
-**Disk space:** ~2 GB for recommended models (Parakeet V3 + Qwen 2.5).
+**Disk space:** ~1.3 GB for recommended models (Parakeet V3 + Gemma 3 1B).
 
 ## Contributing
 

@@ -400,14 +400,14 @@ impl ModelManager {
 
         // Local LLM model for post-processing (macOS only at runtime, but registered on all platforms)
         available_models.insert(
-            "qwen-2.5-1.5b".to_string(),
+            "gemma-3-1b".to_string(),
             ModelInfo {
-                id: "qwen-2.5-1.5b".to_string(),
-                name: "Qwen 2.5".to_string(),
+                id: "gemma-3-1b".to_string(),
+                name: "Gemma 3 1B".to_string(),
                 description: "Post-processing".to_string(),
-                filename: "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf".to_string(),
-                url: Some("https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf".to_string()),
-                size_mb: 1100,
+                filename: "gemma-3-1b-it-Q4_K_M.gguf".to_string(),
+                url: Some("https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf".to_string()),
+                size_mb: 806,
                 is_downloaded: false,
                 is_downloading: false,
                 partial_size: 0,

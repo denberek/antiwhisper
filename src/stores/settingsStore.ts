@@ -374,7 +374,7 @@ export const useSettingsStore = create<SettingsStore>()(
     },
 
     setPostProcessProvider: async (providerId) => {
-      const { settings, setUpdating, refreshSettings } = get();
+      const { settings, setUpdating } = get();
       const updateKey = "post_process_provider_id";
       const previousId = settings?.post_process_provider_id ?? null;
 
@@ -390,7 +390,6 @@ export const useSettingsStore = create<SettingsStore>()(
 
       try {
         await commands.setPostProcessProvider(providerId);
-        await refreshSettings();
       } catch (error) {
         console.error("Failed to set post-process provider:", error);
         if (previousId !== null) {
@@ -411,12 +410,59 @@ export const useSettingsStore = create<SettingsStore>()(
       providerId: string,
       value: string,
     ) => {
-      const { setUpdating, refreshSettings } = get();
+      const { settings, setUpdating } = get();
       const updateKey = `post_process_${settingType}:${providerId}`;
+      const previousValue =
+        settingType === "base_url"
+          ? settings?.post_process_providers?.find((p) => p.id === providerId)
+              ?.base_url ?? ""
+          : settingType === "api_key"
+            ? settings?.post_process_api_keys?.[providerId] ?? ""
+            : settings?.post_process_models?.[providerId] ?? "";
 
       setUpdating(updateKey, true);
 
       try {
+        set((state) => {
+          if (!state.settings) return { settings: null };
+
+          if (settingType === "base_url") {
+            return {
+              settings: {
+                ...state.settings,
+                post_process_providers:
+                  state.settings.post_process_providers?.map((provider) =>
+                    provider.id === providerId
+                      ? { ...provider, base_url: value }
+                      : provider,
+                  ) ?? [],
+              },
+            };
+          }
+
+          if (settingType === "api_key") {
+            return {
+              settings: {
+                ...state.settings,
+                post_process_api_keys: {
+                  ...(state.settings.post_process_api_keys ?? {}),
+                  [providerId]: value,
+                },
+              },
+            };
+          }
+
+          return {
+            settings: {
+              ...state.settings,
+              post_process_models: {
+                ...(state.settings.post_process_models ?? {}),
+                [providerId]: value,
+              },
+            },
+          };
+        });
+
         if (settingType === "base_url") {
           await commands.changePostProcessBaseUrlSetting(providerId, value);
         } else if (settingType === "api_key") {
@@ -424,12 +470,50 @@ export const useSettingsStore = create<SettingsStore>()(
         } else if (settingType === "model") {
           await commands.changePostProcessModelSetting(providerId, value);
         }
-        await refreshSettings();
       } catch (error) {
         console.error(
           `Failed to update post-process ${settingType.replace("_", " ")}:`,
           error,
         );
+        set((state) => {
+          if (!state.settings) return { settings: null };
+
+          if (settingType === "base_url") {
+            return {
+              settings: {
+                ...state.settings,
+                post_process_providers:
+                  state.settings.post_process_providers?.map((provider) =>
+                    provider.id === providerId
+                      ? { ...provider, base_url: previousValue }
+                      : provider,
+                  ) ?? [],
+              },
+            };
+          }
+
+          if (settingType === "api_key") {
+            return {
+              settings: {
+                ...state.settings,
+                post_process_api_keys: {
+                  ...(state.settings.post_process_api_keys ?? {}),
+                  [providerId]: previousValue,
+                },
+              },
+            };
+          }
+
+          return {
+            settings: {
+              ...state.settings,
+              post_process_models: {
+                ...(state.settings.post_process_models ?? {}),
+                [providerId]: previousValue,
+              },
+            },
+          };
+        });
       } finally {
         setUpdating(updateKey, false);
       }

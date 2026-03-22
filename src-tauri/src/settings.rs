@@ -457,7 +457,7 @@ fn default_post_process_providers() -> Vec<PostProcessProvider> {
         #[cfg(target_os = "macos")]
         PostProcessProvider {
             id: LOCAL_PROVIDER_ID.to_string(),
-            label: "Local (Qwen2.5)".to_string(),
+            label: "Local (Gemma 3 1B)".to_string(),
             base_url: "".to_string(),
             allow_base_url_edit: false,
             models_endpoint: None,
@@ -481,7 +481,7 @@ fn default_model_for_provider(provider_id: &str) -> String {
         return APPLE_INTELLIGENCE_DEFAULT_MODEL_ID.to_string();
     }
     if provider_id == LOCAL_PROVIDER_ID {
-        return "qwen3-1.7b".to_string();
+        return "gemma-3-1b".to_string();
     }
     String::new()
 }
@@ -519,6 +519,15 @@ fn ensure_post_process_defaults(settings: &mut AppSettings) -> bool {
             .find(|p| p.id == provider.id)
         {
             Some(existing) => {
+                // Sync label for built-in providers during migrations.
+                if existing.label != provider.label {
+                    debug!(
+                        "Updating label for provider '{}' from '{}' to '{}'",
+                        provider.id, existing.label, provider.label
+                    );
+                    existing.label = provider.label.clone();
+                    changed = true;
+                }
                 // Sync supports_structured_output field for existing providers (migration)
                 if existing.supports_structured_output != provider.supports_structured_output {
                     debug!(
@@ -548,7 +557,9 @@ fn ensure_post_process_defaults(settings: &mut AppSettings) -> bool {
         let default_model = default_model_for_provider(&provider.id);
         match settings.post_process_models.get_mut(&provider.id) {
             Some(existing) => {
-                if existing.is_empty() && !default_model.is_empty() {
+                // Migrate old model IDs to the current default
+                let is_old_model = *existing == "qwen3-0.6b" || *existing == "qwen2.5-1.5b";
+                if (existing.is_empty() || is_old_model) && !default_model.is_empty() {
                     *existing = default_model.clone();
                     changed = true;
                 }

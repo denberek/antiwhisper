@@ -6,7 +6,7 @@ use std::process::{Child, Command, Stdio};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
-pub const LOCAL_LLM_FILENAME: &str = "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf";
+pub const LOCAL_LLM_FILENAME: &str = "gemma-3-1b-it-Q4_K_M.gguf";
 
 pub struct LocalLlmEngine {
     server_process: Option<Child>,
@@ -68,6 +68,8 @@ impl LocalLlmEngine {
                 "127.0.0.1",
                 "-ngl",
                 "99",
+                "--reasoning-budget",
+                "0",
                 "--log-disable",
             ])
             .stdin(Stdio::null())
@@ -351,7 +353,7 @@ mod tests {
     #[test]
     fn test_load_and_process() {
         let model_path = PathBuf::from(std::env::var("HOME").unwrap())
-            .join("Library/Application Support/com.pais.handy/models/llm/Qwen3-1.7B-Q4_K_M.gguf");
+            .join("Library/Application Support/com.pais.handy/models/llm/gemma-3-1b-it-Q4_K_M.gguf");
 
         if !model_path.exists() {
             eprintln!("Model file not found, skipping test");

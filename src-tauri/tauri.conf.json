@@ -1,12 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "antiwhisper",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "identifier": "com.denberek.antiwhisper",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "bun run build",
+    "beforeBundleCommand": "bash scripts/prepare-llama-runtime.sh",
     "frontendDist": "../dist"
   },
   "app": {
@@ -39,7 +40,7 @@
     "active": true,
     "createUpdaterArtifacts": true,
     "targets": "all",
-    "externalBin": ["binaries/llama-server"],
+    "externalBin": ["vendor/llama-runtime/llama-server"],
     "resources": ["resources/**/*"],
     "license": "MIT",
     "icon": [
@@ -50,7 +51,11 @@
       "icons/icon.ico"
     ],
     "macOS": {
-      "files": {},
+      "files": {
+        "lib": "vendor/llama-runtime/lib",
+        "libexec": "vendor/llama-runtime/libexec",
+        "MacOS": "vendor/llama-runtime/macos"
+      },
       "hardenedRuntime": true,
       "minimumSystemVersion": "10.15",
       "signingIdentity": "-",

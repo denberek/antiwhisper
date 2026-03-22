@@ -13,7 +13,7 @@ interface OnboardingProps {
   onModelSelected: () => void;
 }
 
-const LLM_MODEL_ID = "qwen-2.5-1.5b";
+const LLM_MODEL_ID = "gemma-3-1b";
 
 const Onboarding: React.FC<OnboardingProps> = ({ onModelSelected }) => {
   const { t } = useTranslation();

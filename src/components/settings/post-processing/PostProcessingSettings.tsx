@@ -21,10 +21,14 @@ import { ModelSelect } from "../PostProcessingSettingsApi/ModelSelect";
 import { usePostProcessProviderState } from "../PostProcessingSettingsApi/usePostProcessProviderState";
 import { ShortcutInput } from "../ShortcutInput";
 import { useSettings } from "../../../hooks/useSettings";
+import { useModelStore } from "../../../stores/modelStore";
 
 const PostProcessingSettingsApiComponent: React.FC = () => {
   const { t } = useTranslation();
   const state = usePostProcessProviderState();
+  const llmModel = useModelStore((s) =>
+    s.models.find((m) => m.engine_type === "LocalLlm"),
+  );
 
   return (
     <>
@@ -46,7 +50,7 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
 
       {state.isLocalProvider ? (
         <SettingContainer title={t("settings.postProcessing.api.local.status")} description="">
-          <span>{t("settings.postProcessing.api.local.modelInfo")}</span>
+          <span>{t("settings.postProcessing.api.local.modelInfo", { modelName: llmModel?.name ?? "Local LLM" })}</span>
         </SettingContainer>
       ) : state.isAppleProvider ? (
         state.appleIntelligenceUnavailable ? (

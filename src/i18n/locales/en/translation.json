@@ -345,7 +345,7 @@
         },
         "local": {
           "status": "Local Model",
-          "modelInfo": "Qwen2.5 1.5B — No internet required"
+          "modelInfo": "{{modelName}} — No internet required"
         },
         "baseUrl": {
           "title": "Base URL",

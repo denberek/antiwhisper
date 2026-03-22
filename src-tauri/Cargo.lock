@@ -149,7 +149,7 @@ dependencies = [
 
 [[package]]
 name = "antiwhisper"
-version = "0.7.7"
+version = "0.8.1"
 dependencies = [
  "anyhow",
  "chrono",

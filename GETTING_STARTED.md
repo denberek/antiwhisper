@@ -25,7 +25,7 @@ After permissions are granted, antiwhisper downloads two AI models:
 | Model | Purpose | Size |
 |-------|---------|------|
 | **Parakeet V3** | Speech-to-text transcription | ~478 MB |
-| **Qwen 2.5 1.5B** | AI text cleanup (post-processing) | ~1.1 GB |
+| **Gemma 3 1B** | AI text cleanup (post-processing) | ~806 MB |
 
 Wait for both downloads to complete. The app will automatically advance once ready.
 
