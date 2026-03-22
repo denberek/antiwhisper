@@ -62,6 +62,17 @@ LLAMA_LIB_DIR="$LLAMA_PREFIX/lib"
 GGML_LIB_DIR="$GGML_PREFIX_RESOLVED/lib"
 GGML_LIBEXEC_DIR="$GGML_PREFIX_RESOLVED/libexec"
 OPENSSL_LIB_DIR="$OPENSSL_PREFIX_RESOLVED/lib"
+OPENSSL_SSL_LIB="$OPENSSL_LIB_DIR/libssl.3.dylib"
+OPENSSL_CRYPTO_LIB="$OPENSSL_LIB_DIR/libcrypto.3.dylib"
+OPENSSL_SSL_REAL="$(realpath "$OPENSSL_SSL_LIB")"
+OPENSSL_CRYPTO_REAL="$(realpath "$OPENSSL_CRYPTO_LIB")"
+LIBOMP_PREFIX_RESOLVED=""
+LIBOMP_LIB_DIR=""
+
+if command -v brew >/dev/null 2>&1 && brew --prefix libomp >/dev/null 2>&1; then
+  LIBOMP_PREFIX_RESOLVED="$(brew --prefix libomp)"
+  LIBOMP_LIB_DIR="$LIBOMP_PREFIX_RESOLVED/lib"
+fi
 
 for required in \
   "$LLAMA_SERVER_BIN" \
@@ -69,8 +80,8 @@ for required in \
   "$LLAMA_LIB_DIR/libmtmd.0.dylib" \
   "$GGML_LIB_DIR/libggml.0.dylib" \
   "$GGML_LIB_DIR/libggml-base.0.dylib" \
-  "$OPENSSL_LIB_DIR/libssl.3.dylib" \
-  "$OPENSSL_LIB_DIR/libcrypto.3.dylib"; do
+  "$OPENSSL_SSL_LIB" \
+  "$OPENSSL_CRYPTO_LIB"; do
   if [[ ! -f "$required" ]]; then
     echo "Missing required runtime file: $required" >&2
     exit 1
@@ -84,12 +95,16 @@ SERVER_STAGE="$STAGE_DIR/llama-server-$TARGET_TRIPLE"
 cp "$LLAMA_SERVER_BIN" "$SERVER_STAGE"
 chmod +x "$SERVER_STAGE"
 
-cp "$OPENSSL_LIB_DIR/libssl.3.dylib" "$STAGE_DIR/lib/"
-cp "$OPENSSL_LIB_DIR/libcrypto.3.dylib" "$STAGE_DIR/lib/"
+cp "$OPENSSL_SSL_LIB" "$STAGE_DIR/lib/"
+cp "$OPENSSL_CRYPTO_LIB" "$STAGE_DIR/lib/"
 cp "$LLAMA_LIB_DIR/libllama.0.dylib" "$STAGE_DIR/lib/"
 cp "$LLAMA_LIB_DIR/libmtmd.0.dylib" "$STAGE_DIR/lib/"
 cp "$GGML_LIB_DIR/libggml.0.dylib" "$STAGE_DIR/lib/"
 cp "$GGML_LIB_DIR/libggml-base.0.dylib" "$STAGE_DIR/lib/"
+
+if [[ -n "$LIBOMP_LIB_DIR" && -f "$LIBOMP_LIB_DIR/libomp.dylib" ]]; then
+  cp "$LIBOMP_LIB_DIR/libomp.dylib" "$STAGE_DIR/lib/"
+fi
 
 shopt -s nullglob
 backend_plugins=("$GGML_LIBEXEC_DIR"/*.so)
@@ -107,15 +122,19 @@ done
 
 chmod -R u+w "$STAGE_DIR"
 
-install_name_tool -change "$OPENSSL_LIB_DIR/libssl.3.dylib" "@loader_path/../lib/libssl.3.dylib" "$SERVER_STAGE"
-install_name_tool -change "$OPENSSL_LIB_DIR/libcrypto.3.dylib" "@loader_path/../lib/libcrypto.3.dylib" "$SERVER_STAGE"
+install_name_tool -change "$OPENSSL_SSL_LIB" "@loader_path/../lib/libssl.3.dylib" "$SERVER_STAGE"
+install_name_tool -change "$OPENSSL_SSL_REAL" "@loader_path/../lib/libssl.3.dylib" "$SERVER_STAGE"
+install_name_tool -change "$OPENSSL_CRYPTO_LIB" "@loader_path/../lib/libcrypto.3.dylib" "$SERVER_STAGE"
+install_name_tool -change "$OPENSSL_CRYPTO_REAL" "@loader_path/../lib/libcrypto.3.dylib" "$SERVER_STAGE"
 install_name_tool -change "@rpath/libmtmd.0.dylib" "@loader_path/../lib/libmtmd.0.dylib" "$SERVER_STAGE"
 install_name_tool -change "@rpath/libllama.0.dylib" "@loader_path/../lib/libllama.0.dylib" "$SERVER_STAGE"
 install_name_tool -change "$GGML_LIB_DIR/libggml.0.dylib" "@loader_path/../lib/libggml.0.dylib" "$SERVER_STAGE"
 install_name_tool -change "$GGML_LIB_DIR/libggml-base.0.dylib" "@loader_path/../lib/libggml-base.0.dylib" "$SERVER_STAGE"
 
 install_name_tool -id "@loader_path/libssl.3.dylib" "$STAGE_DIR/lib/libssl.3.dylib"
-install_name_tool -change "$OPENSSL_LIB_DIR/libcrypto.3.dylib" "@loader_path/libcrypto.3.dylib" "$STAGE_DIR/lib/libssl.3.dylib"
+install_name_tool -change "$OPENSSL_CRYPTO_LIB" "@loader_path/libcrypto.3.dylib" "$STAGE_DIR/lib/libssl.3.dylib"
+install_name_tool -change "$OPENSSL_CRYPTO_REAL" "@loader_path/libcrypto.3.dylib" "$STAGE_DIR/lib/libssl.3.dylib"
+install_name_tool -change "@rpath/libcrypto.3.dylib" "@loader_path/libcrypto.3.dylib" "$STAGE_DIR/lib/libssl.3.dylib"
 install_name_tool -id "@loader_path/libcrypto.3.dylib" "$STAGE_DIR/lib/libcrypto.3.dylib"
 
 install_name_tool -id "@loader_path/libllama.0.dylib" "$STAGE_DIR/lib/libllama.0.dylib"
@@ -130,6 +149,23 @@ install_name_tool -change "@rpath/libllama.0.dylib" "@loader_path/libllama.0.dyl
 install_name_tool -id "@loader_path/libggml.0.dylib" "$STAGE_DIR/lib/libggml.0.dylib"
 install_name_tool -change "@rpath/libggml-base.0.dylib" "@loader_path/libggml-base.0.dylib" "$STAGE_DIR/lib/libggml.0.dylib"
 install_name_tool -id "@loader_path/libggml-base.0.dylib" "$STAGE_DIR/lib/libggml-base.0.dylib"
+
+fix_plugin_links() {
+  local plugin="$1"
+
+  install_name_tool -add_rpath "@loader_path/../lib" "$plugin" 2>/dev/null || true
+  install_name_tool -change "@rpath/libggml-base.0.dylib" "@loader_path/../lib/libggml-base.0.dylib" "$plugin" 2>/dev/null || true
+
+  if [[ -n "$LIBOMP_LIB_DIR" && -f "$STAGE_DIR/lib/libomp.dylib" ]]; then
+    install_name_tool -change "$LIBOMP_LIB_DIR/libomp.dylib" "@loader_path/../lib/libomp.dylib" "$plugin" 2>/dev/null || true
+    install_name_tool -change "@rpath/libomp.dylib" "@loader_path/../lib/libomp.dylib" "$plugin" 2>/dev/null || true
+  fi
+}
+
+for plugin in "$STAGE_DIR/libexec/"*.so "$STAGE_DIR/macos/"*.so; do
+  [[ -e "$plugin" ]] || continue
+  fix_plugin_links "$plugin"
+done
 
 if command -v codesign >/dev/null 2>&1; then
   codesign --force --sign - \
