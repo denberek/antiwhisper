@@ -4,7 +4,7 @@ A quick guide to get up and running with antiwhisper on macOS.
 
 ## Installation
 
-1. Download **antiwhisper_0.7.7_aarch64.dmg** from the [Releases page](https://github.com/denberek/antiwhisper/releases)
+1. Download the latest **antiwhisper_*.dmg** from the [Releases page](https://github.com/denberek/antiwhisper/releases)
 2. Open the DMG and drag **antiwhisper** into your Applications folder
 3. **Important:** Right-click antiwhisper in Applications → click **Open** (required on first launch since the app is not code-signed)
 4. macOS will ask "Are you sure you want to open it?" → click **Open**
@@ -85,7 +85,7 @@ Access settings by:
 ## System Requirements
 
 - macOS 10.15 or later (Apple Silicon or Intel)
-- ~2 GB disk space for models
+- ~1.3 GB disk space for the recommended models
 - A microphone (built-in or external)
 
 ## Uninstalling

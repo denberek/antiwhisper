@@ -1,10 +1,10 @@
-# Contributing to Handy
+# Contributing to antiwhisper
 
-Thank you for your interest in contributing to Handy! This guide will help you get started with contributing to this open source speech-to-text application.
+Thank you for your interest in contributing to antiwhisper. This guide will help you get started with contributing to this open source speech-to-text application.
 
 ## 📖 Philosophy
 
-Handy aims to be the most forkable speech-to-text app. The goal is to create both a useful tool and a foundation for others to build upon—a well-patterned, simple codebase that serves the community. We prioritize:
+antiwhisper aims to be a fast, privacy-first speech-to-text app that stays easy to fork and customize. We prioritize:
 
 - **Simplicity**: Clear, maintainable code over clever solutions
 - **Extensibility**: Make it easy for others to fork and customize
@@ -28,14 +28,14 @@ Before you begin, ensure you have the following installed:
 2. **Clone your fork**:
 
    ```bash
-   git clone git@github.com:YOUR_USERNAME/Handy.git
-   cd Handy
+   git clone git@github.com:YOUR_USERNAME/antiwhisper.git
+   cd antiwhisper
    ```
 
 3. **Add upstream remote**:
 
    ```bash
-   git remote add upstream git@github.com:cjpais/Handy.git
+   git remote add upstream git@github.com:denberek/antiwhisper.git
    ```
 
 4. **Install dependencies**:
@@ -58,11 +58,11 @@ Before you begin, ensure you have the following installed:
    CMAKE_POLICY_VERSION_MINIMUM=3.5 bun run tauri dev
    ```
 
-For detailed platform-specific setup instructions, see [BUILD.md](BUILD.md).
+For detailed platform-specific setup instructions, see [BUILD.md](BUILD.md). On macOS release builds, install `llama.cpp` via Homebrew so the Gemma runtime can be bundled automatically.
 
 ### Understanding the Codebase
 
-Handy follows a clean architecture pattern:
+antiwhisper follows a clean architecture pattern:
 
 **Backend (Rust - `src-tauri/src/`):**
 
@@ -86,8 +86,8 @@ For more details, see the Architecture section in [README.md](README.md) or [AGE
 
 ### Before Submitting a Bug Report
 
-1. **Search existing issues** at [github.com/cjpais/Handy/issues](https://github.com/cjpais/Handy/issues)
-2. **Check discussions** at [github.com/cjpais/Handy/discussions](https://github.com/cjpais/Handy/discussions)
+1. **Search existing issues** at [github.com/denberek/antiwhisper/issues](https://github.com/denberek/antiwhisper/issues)
+2. **Check discussions** at [github.com/denberek/antiwhisper/discussions](https://github.com/denberek/antiwhisper/discussions)
 3. **Try the latest release** to see if the issue has been fixed
 4. **Enable debug mode** (`Cmd/Ctrl+Shift+D`) to gather diagnostic information
 
@@ -119,14 +119,14 @@ We use GitHub Discussions for feature requests rather than issues. This keeps is
 
 ### Before Suggesting a Feature
 
-1. **Search existing discussions** at [github.com/cjpais/Handy/discussions](https://github.com/cjpais/Handy/discussions)
+1. **Search existing discussions** at [github.com/denberek/antiwhisper/discussions](https://github.com/denberek/antiwhisper/discussions)
 2. **Check common feature requests**:
    - [Post-processing / Editing Transcripts](https://github.com/cjpais/Handy/discussions/168)
    - [Keyboard Shortcuts / Hotkeys](https://github.com/cjpais/Handy/discussions/211)
 
 ### Submitting a Feature Request
 
-1. Go to [Discussions](https://github.com/cjpais/Handy/discussions)
+1. Go to [Discussions](https://github.com/denberek/antiwhisper/discussions)
 2. Click "New discussion"
 3. Choose the appropriate category (Ideas, Feature Requests, etc.)
 4. Describe your feature idea including:
@@ -142,19 +142,19 @@ We use GitHub Discussions for feature requests rather than issues. This keeps is
 **This is critical:** Before writing any code, please do the following:
 
 1. **Search existing issues and PRs** - Check both open AND closed issues and pull requests. Someone may have already addressed this, or there may be a reason it was closed.
-   - [Open issues](https://github.com/cjpais/Handy/issues)
-   - [Closed issues](https://github.com/cjpais/Handy/issues?q=is%3Aissue+is%3Aclosed)
-   - [Open PRs](https://github.com/cjpais/Handy/pulls)
-   - [Closed PRs](https://github.com/cjpais/Handy/pulls?q=is%3Apr+is%3Aclosed)
+   - [Open issues](https://github.com/denberek/antiwhisper/issues)
+   - [Closed issues](https://github.com/denberek/antiwhisper/issues?q=is%3Aissue+is%3Aclosed)
+   - [Open PRs](https://github.com/denberek/antiwhisper/pulls)
+   - [Closed PRs](https://github.com/denberek/antiwhisper/pulls?q=is%3Apr+is%3Aclosed)
 
 2. **If something was previously closed** - If you want to revisit a closed issue or PR, you need to:
    - Provide a strong argument for why it should be reconsidered
-   - Gather community feedback first via [Discussions](https://github.com/cjpais/Handy/discussions)
+   - Gather community feedback first via [Discussions](https://github.com/denberek/antiwhisper/discussions)
    - Link to that discussion in your PR
 
 3. **Get community feedback for features** - PRs with demonstrated community interest are **much more likely to be merged**. Start a discussion, get feedback, and link to it in your PR. This helps ensure Handy stays focused and useful for the most people without becoming bloated.
 
-Community feedback is essential to keeping Handy the best it can be for everyone. It helps prioritize what matters most and prevents feature creep.
+Community feedback is essential to keeping antiwhisper focused and useful without feature creep.
 
 ### Development Workflow
 
@@ -209,7 +209,7 @@ Community feedback is essential to keeping Handy the best it can be for everyone
    ```
 
 7. **Create a Pull Request**:
-   - Go to the [Handy repository](https://github.com/cjpais/Handy)
+   - Go to the [antiwhisper repository](https://github.com/denberek/antiwhisper)
    - Click "New Pull Request"
    - Select your fork and branch
    - Fill out the PR template completely, including:

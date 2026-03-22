@@ -21,7 +21,7 @@ Everything runs locally — your voice never leaves your computer.
 2. Drag antiwhisper to Applications
 3. Right-click the app → **Open** (required on first launch since the app is not notarized)
 4. Grant **Microphone** and **Accessibility** permissions when prompted
-5. Download the recommended models on first launch (~1.6 GB total)
+5. Download the recommended models on first launch (~1.3 GB total)
 6. Start transcribing!
 
 > See [GETTING_STARTED.md](GETTING_STARTED.md) for a detailed first-time setup guide.
@@ -31,6 +31,14 @@ Everything runs locally — your voice never leaves your computer.
 For building from source, see [BUILD.md](BUILD.md).
 
 **Prerequisites:** [Rust](https://rustup.rs/) (latest stable), [Bun](https://bun.sh/)
+
+For local macOS release builds that bundle on-device post-processing, also install:
+
+```bash
+brew install llama.cpp
+```
+
+The build pipeline stages the required `llama.cpp`, `ggml`, and OpenSSL runtime files into the app bundle automatically during `tauri build`.
 
 ```bash
 bun install

@@ -1,6 +1,6 @@
 # Build Instructions
 
-This guide covers how to set up the development environment and build Handy from source across different platforms.
+This guide covers how to set up the development environment and build antiwhisper from source across different platforms.
 
 ## Prerequisites
 
@@ -16,6 +16,8 @@ This guide covers how to set up the development environment and build Handy from
 
 - Xcode Command Line Tools
 - Install with: `xcode-select --install`
+- Homebrew `llama.cpp` package for local LLM release bundling
+- Install with: `brew install llama.cpp`
 
 #### Windows
 
@@ -52,8 +54,8 @@ This guide covers how to set up the development environment and build Handy from
 ### 1. Clone the Repository
 
 ```bash
-git clone git@github.com:cjpais/Handy.git
-cd Handy
+git clone git@github.com:denberek/antiwhisper.git
+cd antiwhisper
 ```
 
 ### 2. Install Dependencies
@@ -67,3 +69,13 @@ bun install
 ```bash
 bun tauri dev
 ```
+
+### 4. Build a macOS Release
+
+On macOS, `tauri build` runs `scripts/prepare-llama-runtime.sh` before bundling. That script stages the required `llama.cpp`, `ggml`, and OpenSSL runtime files into the app bundle so Gemma-based post-processing works on another machine without Homebrew installed.
+
+```bash
+PATH="$HOME/.cargo/bin:$PATH" bun run tauri build --bundles app
+```
+
+If updater signing is configured in your environment, you can use the full release build instead.
